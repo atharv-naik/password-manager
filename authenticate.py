@@ -4,6 +4,7 @@ import time
 import datetime
 import getpass
 import threading
+import os
 
 
 LOADED = 0
@@ -39,7 +40,8 @@ def loader(text="Please wait", type=1):
 OTP_LENGTH = 4
 TIME_LIMIT = 60
 
-PASSWORD = "uihmudzyhiyjgwbg"
+PASSWORD = os.environ.get("PASSWORD")
+EMAIL = os.environ.get("EMAIL")
 
 OTP = ''
 
@@ -58,14 +60,14 @@ def send_otp(user_email):
     server.starttls()
     server.ehlo()
 
-    server.login('atharvn317@gmail.com', PASSWORD)
+    server.login(EMAIL, PASSWORD)
 
     subject = 'OTP for authentication.'
     body = f'{get_otp()} is your One-Time Password valid till {set_time_limit()}.\nDO NOT SHARE THIS WITH ANYONE.'
     msg = f'Subject: {subject}\n\n{body}'
 
     server.sendmail(
-        'atharvn317@gmail.com',
+        EMAIL,
         f'{user_email}',
         msg
     )
